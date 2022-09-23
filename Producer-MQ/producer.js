@@ -16,7 +16,7 @@ class Producer{
 
     }
 
-    async publishMessage(routingKey,url){
+    async publishMessage(documentTitle,documentDesc,documentDomain,routingKey,url){
         if(!this.channel){
             await this.createChannel();
         }
@@ -25,8 +25,11 @@ class Producer{
 
         const logDetails = {
             fileType : routingKey,
-            url : url,
-            datetime: new Date(), 
+            documentUrl : url,
+            documentTitle: documentTitle,
+            documentDesc: documentDesc,
+            documentContent : "",
+            documentDomain: documentDomain
         };
         await this.channel.publish(exchangeName, routingKey,Buffer.from(
             JSON.stringify(logDetails)

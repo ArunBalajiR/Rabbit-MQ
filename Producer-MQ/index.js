@@ -7,12 +7,20 @@ const producer = new Producer();
 app.use(bodyParser.json("application/json"));
 
 app.post("/sendData",async (req,res,next) => {
-    await producer.publishMessage(req.body.fileType, req.body.url);
-    res.send();
+    //documentTitle,documentDesc,documentDomain,routingKey,url
+    await producer.publishMessage(
+        req.body.documentTitle,
+        req.body.documentDesc,
+        req.body.documentDomain,
+        req.body.fileType, 
+        req.body.documentUrl);
+    res.send({
+        message : "Added to fileExchangeQueue",
+    });
 });
 
 
-const PORT = 3000;
-app.listen(3000, ()=>{
+const PORT = 3500;
+app.listen(3500, ()=>{
     console.log(`App Listening on port ${PORT}`);
 })
